@@ -16,6 +16,8 @@ public class ABInBev_EU_TaskClass3 {
         private String[] field_order_type_info = new String[]{'debugLog'};
     }
     public class address {
+    	// Adding some comment to test Github push
+    	
         public String city;
         public String country;
         public String countryCode;

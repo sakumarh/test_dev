@@ -1,4 +1,5 @@
 public with sharing class ContactController {
+	// Adding some comment to test Github push
 
     @AuraEnabled
     public static List<Contact> findAll() {

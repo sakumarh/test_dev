@@ -2,6 +2,8 @@
 
 public class CalculatorSOAP {
     public class LogInfo {
+    	
+    	// Adding some comment to test Github push
         public String category;
         public String level;
         private String[] category_type_info = new String[]{'category','http://soap.sforce.com/schemas/class/Calculator',null,'1','1','false'};
