@@ -1,0 +1,13 @@
+<apex:page standardStylesheets="false">
+
+    <apex:includeLightning />      
+        
+    <div id="lightning" />
+
+    <script>
+    $Lightning.use("et4ae5:BusinessUnitManagementApp", function() {
+        $Lightning.createComponent("et4ae5:BusinessUnitManagement", null, "lightning");      
+    });
+
+    </script>
+</apex:page>

@@ -1,0 +1,6 @@
+<aura:component >
+    <aura:registerEvent name="cmpEvent" type="lightcmp:dropboxCmpEvent"/>
+	<aura:attribute name="menu" type="String" />
+    <aura:attribute name="index" type="integer" />
+    <a onclick="{!c.setNavigation}">{!v.menu}</a>/
+</aura:component>

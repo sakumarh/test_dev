@@ -1,0 +1,15 @@
+<apex:page >
+ 
+          {! $User.FirstName} 
+          <br/>
+          {! $User.LastName }
+            <br/>
+           {! $User.Username }
+           <br/>  
+           {! $User.Email } 
+           <br/>  
+           {! $User.CompanyName} 
+           <br/>  
+           {! $User.Address}     
+
+</apex:page>

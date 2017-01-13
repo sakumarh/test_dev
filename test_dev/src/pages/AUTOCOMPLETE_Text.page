@@ -1,0 +1,5 @@
+<apex:page Controller="autoCompleteCon" docType="html-5.0">;
+ <apex:form >
+  <apex:inputText list="{!listOfString}"/>
+ </apex:form>
+</apex:page>

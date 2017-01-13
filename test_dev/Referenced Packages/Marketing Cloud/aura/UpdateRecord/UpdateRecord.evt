@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Updates record.">
+    <aura:attribute name="record" type="sObject" description="Record that needs to be updated."/>
+</aura:event>

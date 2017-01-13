@@ -1,0 +1,12 @@
+<apex:page standardStylesheets="false" tabStyle="ExactTargetPhoenix__tab">
+    <apex:includeLightning />      
+        
+    <div id="lightning" />
+
+    <script>
+    $Lightning.use("et4ae5:MarketingCloudSettingsApp", function() {
+        $Lightning.createComponent("et4ae5:MarketingCloudSettings", null, "lightning");      
+    });
+
+    </script>
+</apex:page>

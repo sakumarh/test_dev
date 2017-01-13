@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event for set metadata" >    
+    <aura:attribute name="fileTypeEvent" type="String" default="folder"/>
+    <aura:attribute name="fileNameEvent" type="string" default=""/>
+    <aura:attribute name="navBarEvent" type="integer" default=""/>
+</aura:event>

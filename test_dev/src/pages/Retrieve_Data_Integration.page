@@ -1,0 +1,11 @@
+<apex:page controller="DataController">
+    <apex:form >
+        <apex:commandButton value="Retrieve Data from SFDC" action="{!retrieveData}"/>
+        <apex:pageBlock >
+            <apex:pageblockTable value="{!accountList}" var="acc">
+                <apex:column value="{!acc.name}"/>
+                <apex:column value="{!acc.Id}"/>
+            </apex:pageblockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

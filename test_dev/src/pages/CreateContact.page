@@ -1,0 +1,40 @@
+<apex:page standardController="Contact">
+
+<!--<apex:includeScript value="{!URLFOR($Resource.jquery, '/js/jquery-1.10.2.js')}" />-->
+    <script type="text/javascript">
+  $(document).keypress(
+    function(event){
+     if(event.which == '13') {
+        event.preventDefault();
+      }
+      });
+    function CloseTab() {
+        if(typeof(srcUp)== 'function'){    
+            sforce.console.getEnclosingTabId(closeSubtab);      
+        } 
+    }
+    var closeSubtab = function closeSubtab(result) {
+        //Now that we have the tab ID, we can close it
+        var tabId = result.id;
+        sforce.console.closeTab(tabId);
+    }; 
+        
+    </script>
+    <style>
+.locationError {
+    color: blue;
+    font-weight: strong;
+}
+</style>
+    
+    <apex:form >
+    
+        <apex:inputField value="{! Contact.FirstName }"/>
+        <apex:inputField value="{! Contact.LastName }"/>
+        <apex:inputField value="{! Contact.Email }"/>
+        
+        <apex:commandButton action="{! save }" value="Save" />
+    
+    </apex:form>
+
+</apex:page>

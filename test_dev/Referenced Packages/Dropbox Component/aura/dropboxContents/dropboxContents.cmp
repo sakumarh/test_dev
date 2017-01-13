@@ -1,0 +1,26 @@
+<aura:component >
+    <aura:registerEvent name="cmpEvent" type="lightcmp:dropboxCmpEvent"/>
+    <aura:attribute name="fileName" type="String" />
+    <aura:attribute name="data" type="lightcmp.MetadataContents" />
+    
+    <li class="slds-list__item" style="border-bottom: 1px solid #ddd; padding: 10px;">
+        <div class="slds-media slds-tile">
+            <div class="slds-media__figure" style="margin-top: 5px;">
+                <img class="{!'sprite sprite_web s_web_' + v.data.icon + '_32 icon'}" alt="{!v.data.file_name}" draggable="true" style="margin: -9px 10px -5px -5px;" src="/resource/lightcmp__dropbox/dropbox/css/images/icon_spacer.gif"/>
+            </div>
+            <div class="slds-media__body">
+                <aura:if isTrue="{!v.data.icon != 'folder'}">
+                    <p class="slds-tile__title slds-truncate"><a onclick="{!c.openFile}">{!v.data.short_file_name}</a></p>
+                    <ul class="slds-tile__detail slds-list--horizontal slds-has-dividers slds-text-body--small">
+                        <li class="slds-truncate slds-list__item">{!v.data.mime_type}</li>
+                        <li class="slds-truncate slds-list__item">{!v.data.size}</li>
+                    </ul>
+                    <aura:set attribute="else"> 
+                        <p class="slds-tile__title slds-truncate"><a onclick="{!c.openFolder}">{!v.data.short_file_name}</a></p>    	
+                    </aura:set>
+                </aura:if> 
+            </div>
+            <img alt="Show deleted files" onclick="{!c.deleteFile}" src="/resource/lightcmp__dropbox/dropbox/css/images/icon_spacer.gif" class="sprite sprite_web s_web_trash-can " style="cursor: pointer;"/>
+        </div>
+    </li>
+</aura:component>

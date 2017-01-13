@@ -1,0 +1,62 @@
+<apex:page controller="lightcmp.DropBoxOAuthController" extensions="lightcmp.DropBoxCmpController" cache="false" action="{!checkAuthorized}" standardStylesheets="false" sidebar="false">
+    <apex:form >
+        <link href="{!URLFOR($Resource.dropbox, 'dropbox/css/bootstrap.min.css')}" rel="stylesheet" type="text/css" />
+        <link href="{!URLFOR($Resource.dropbox, 'dropbox/css/dropbox_icon.css')}" rel="stylesheet" type="text/css" />
+        <link href="{!URLFOR($Resource.SLDS080, '/assets/styles/salesforce-lightning-design-system-vf.css')}" rel="stylesheet" type="text/css" />
+        <style>
+            .banner_logo {
+                background-position: left -160px;
+                width: 200px;
+                height: 55px;
+                background-image: url(/logos/Apps/Dropbox/logo.png);
+            }
+            
+            .right-linkto-div {
+                margin-top: 25px;
+                text-align: center;
+                font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+                font-size: 14px;
+                color: crimson;
+            }
+        </style>
+        <div class="well">
+
+            <div class="row" id="row1">
+                <div class="col-sm-12 col-md-12">
+                    <div class="thumbnail">
+                        <div style="width: 200px;display: inline;">
+                            <apex:image id="banner" value="{!URLFOR($Resource.lightcmp__dropbox, 'dropbox/css/images/icon_spacer.gif')}" styleClass="banner_logo" style="height: 55px;margin: 0px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="row2">
+                <div class="col-sm-12 col-md-12">
+                    <div class="panel panel-default" id="unauthorize-panel1">
+                        <div class="panel-body">
+                            <div class="right-linkto-div slds">
+                                <img src="{!URLFOR($Resource.dropbox, 'dropbox/css/images/blue_dropbox_glyph.png')}" />
+                                <br/>
+                                <br/>
+                                <apex:outputPanel layout="none" rendered="{!!isError}">
+                                    <span style="font-size: 20pt;"> You are authorized now.<br/> Please click on <b>GoBack</b> to start experiencing <b>Dropbox</b>
+                                 </span></apex:outputPanel>
+                                <apex:outputPanel layout="none" rendered="{!isError}">
+                                    <span style="font-size: 20pt;"> Invalid client_id or client_secret <br/>You are not authorized Please check<br/> 
+                                    Please click on <b>GoBack</b> to reset your custom setting and then start experiencing <b>Dropbox</b>
+                                
+                                 </span></apex:outputPanel>
+                                
+                                    <br/><br/> 
+                                    <apex:commandButton value="Go Back" StyleClass="slds-button slds-button--brand" action="{!GoBack}"/>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </apex:form>
+
+</apex:page>

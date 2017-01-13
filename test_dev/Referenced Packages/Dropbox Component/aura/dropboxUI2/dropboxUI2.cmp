@@ -1,0 +1,129 @@
+<aura:component controller="lightcmp.DropBoxCmpController" implements="force:appHostable,force:hasRecordId,force:hasSObjectName,flexipage:availableForAllPageTypes">
+    <ltng:require styles="/resource/lightcmp__SLDS080/assets/styles/salesforce-lightning-design-system-vf.css,
+                          /resource/lightcmp__dropbox/dropbox/css/dropbox.css,
+                          /resource/lightcmp__dropbox/dropbox/css/dropbox_icon.css"
+                  afterScriptsLoaded="{!c.doInit}"></ltng:require>
+    <aura:attribute name="authorized" type="lightcmp.DropboxKeyWrapper"/>
+    <aura:attribute name="metadata" type="lightcmp.MetadataContents" />
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="isErr" type="Boolean" default="false"/>
+    <aura:attribute name="sObjectName" type="String" default=""/>
+    <aura:attribute name="filePath" type="String" default=""/>
+    <aura:attribute name="totalFiles" type="Integer" default="0" />
+    <aura:attribute name="Nav" type="String[]" default="Home"/>
+    <div class = "slds">
+        <div style="padding: 15px;"> 
+            
+            <div class="page-header">
+                <div style="display: inline;">
+                    
+                    <div style="display: inline-block;width: 100%;">
+                    	<div style="float:left;">
+                    		<img style="width: 200px; padding: 10px;" src="/resource/lightcmp__dropbox/dropbox/css/images/Dropbox_logo.png"/>
+                    	</div>
+                        <div style="float:right; padding: 20px 10px;">
+                    		<img alt="Upload…" onclick="{!c.showUploadModal}" title="Upload…" src="/resource/lightcmp__dropbox/dropbox/css/images/icon_spacer.gif" class="sprite sprite_web s_web_upload_16 " style="margin-right: 10px;cursor:pointer;margin-top: 10px;"  data-toggle="modal" data-target="#upload-modal" data-backdrop="static"/> 
+            				<img alt="New folder" onclick="{!c.showFolderModal}" title="New folder" src="/resource/lightcmp__dropbox/dropbox/css/images/icon_spacer.gif" class="sprite sprite_web s_web_folder_add " style="cursor:pointer;margin-right: 10px;margin-top: 10px;"/>
+                    	</div>
+                    </div>
+                    
+                    <div id="breadcrumb_panel" style="text-align: center;">
+						<aura:iteration items="{!v.Nav}" var="menu" indexVar="i">
+                            <lightcmp:dropboxNavBar index="{!i}" menu="{!menu}" cmpEvent="{!c.setNavigationEvent}"/>
+                        </aura:iteration>
+                    </div>
+                </div>               
+                
+            </div>
+            
+            <div class="slds-container slds-scrollable--y" style="max-height: 250px;">
+                <aura:if isTrue="{!v.authorized.isAuthorized == true}">  
+                    <aura:if isTrue="{!v.metadata != null }">
+                        <aura:if isTrue="{!v.metadata.length != 0 }">
+                            <ul class="slds-list--vertical">
+                                <aura:iteration items="{!v.metadata}" var="data">
+                                    <lightcmp:dropboxContents fileName="{!data.file_name}" data="{!data}" cmpEvent="{!c.setMetadataUsingEvent}"/>
+                                </aura:iteration>
+                            </ul>
+                            <aura:set attribute="else"> 
+                                <center><img src="/resource/lightcmp__dropbox/dropbox/css/images/empty_dropbox.png" style="width: 120px"/></center>
+                            </aura:set>
+                        </aura:if>
+                        <aura:set attribute="else"> 
+                            <center><img src="/resource/lightcmp__dropbox/dropbox/css/images/empty_dropbox.png" style="width: 120px"/></center>
+                        </aura:set>
+                    </aura:if>
+                    <aura:set attribute="else">   
+                        <aura:if isTrue="{!v.isErr == true}">
+                            <span style="color:red;">Please add record in your "Dropbox key" custom setting first.</span>
+                            <aura:set attribute="else"> 
+                                <span>Looking for some space? Upload your files to dropbox. Combine the power of Dropbox and Salesforce and get complete access to your Dropbox account directly in Salesforce.</span>
+                            </aura:set>
+                        </aura:if>                            
+                        <br/><br/>
+                        <ui:button label="Authorize Dropbox" press="{!c.redirectPage}" class="slds-button slds-button--neutral"/>
+                        
+                    </aura:set>
+                </aura:if>
+            </div>
+        </div>
+        
+        <!-- Upload Files Modal -->
+        <div aura:id = "uploadFileModal" aria-hidden="false" role="dialog" style = "background: rgba(0,0,0,0.6);" class="slds-modal ">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading--medium">Upload your file</h2>                        
+                </div>
+                <div class="slds-modal__content">
+                    <form class="slds-form--inline">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="name">Enter New Folder Name</label>
+                            <div class="slds-form-element__control">
+                                <input name="files[]" type="file" multiple="multiple" class="file slds-button slds-button--neutral" aura:id="file" />
+                            </div>
+                        </div>  
+                        <div class="slds-form-element">                                
+                            <div aura:id="uploading" class="notUploading">
+                                <div class="slds-spinner--small">
+                                    <img src="/resource/lightcmp__SLDS080/assets/images/spinners/slds_spinner_brand.gif" alt="Loading..." />
+                                </div>                                
+                            </div>
+                            <div id="uploadSuccess"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="slds-modal__footer">
+                    <div class="slds-x-small-buttons--horizontal">                        
+                        <ui:button class="slds-button slds-button--neutral slds-button--brand slds-m-horizontal--medium" label="Upload" press="{!c.uploadFiles}"/>
+                        <ui:button class="slds-button slds-button--neutral "  label="Close" press="{!c.hideUploadModal}"/>
+                    </div>
+                </div>
+            </div>
+        </div>     
+        
+        <!-- New Folder Modal -->
+        <div aura:id = "newFolderModal" aria-hidden="false" role="dialog" style = "background: rgba(0,0,0,0.6);" class="slds-modal ">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading--medium">Create New Folder</h2>                        
+                </div>
+                <div class="slds-modal__content">
+                    <form class="slds-form--inline">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="name">Enter New Folder Name</label>
+                            <div class="slds-form-element__control">
+                                <ui:inputText aura:id="foldername" class="slds-input" placeholder="New Folder" />
+                            </div>
+                        </div>                        
+                    </form>
+                </div>
+                <div class="slds-modal__footer">
+                    <div class="slds-x-small-buttons--horizontal">                        
+                        <ui:button class="slds-button slds-button--neutral slds-button--brand slds-m-horizontal--medium" label="Create Folder" press="{!c.createFolder}"/>
+                        <ui:button class="slds-button slds-button--neutral "  label="Close" press="{!c.hideFolderModal}"/>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</aura:component>
